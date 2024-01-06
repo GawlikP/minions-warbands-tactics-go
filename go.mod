@@ -1,4 +1,4 @@
-module minions-warbands-tactis
+module minions-warbands-tactics
 
 go 1.21.5
 

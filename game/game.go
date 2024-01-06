@@ -6,8 +6,8 @@ import (
   "github.com/hajimehoshi/ebiten/v2/ebitenutil"
   "fmt"
   "log"
-  "minions-warbands-tactis/textures"
-  "minions-warbands-tactis/scenes"
+  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/scenes"
   "os"
 )
 

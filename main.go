@@ -3,7 +3,7 @@ package main
 import (
   "log"
   "github.com/hajimehoshi/ebiten/v2"
-  "minions-warbands-tactis/game"
+  "minions-warbands-tactics/game"
 )
 
 func main() {

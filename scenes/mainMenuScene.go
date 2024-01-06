@@ -3,8 +3,8 @@ package scenes
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "github.com/hajimehoshi/ebiten/v2/inpututil"
-  "minions-warbands-tactis/gameObjects"
-  "minions-warbands-tactis/textures"
+  "minions-warbands-tactics/gameObjects"
+  "minions-warbands-tactics/textures"
 )
 
 type MainMenuScene struct {
