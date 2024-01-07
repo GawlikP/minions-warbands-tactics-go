@@ -16,9 +16,10 @@ type MainMenuScene struct {
   sceneH              int
   NewGameSprite       gameObjects.Sprite
   ExitGameSprite      gameObjects.Sprite
+  NewGameChoosed      bool
 }
 
-func (m *MainMenuScene) Update() error {
+func (m *MainMenuScene) Update() int {
   m.Input()
   if m.CursorPosition > m.MaxCursorPosition {
     m.CursorPosition = 1
@@ -34,7 +35,11 @@ func (m *MainMenuScene) Update() error {
       m.CursorSprite.Ypos = m.ExitGameSprite.Ypos + 32
     }
   }
-  return nil
+
+  if m.NewGameChoosed {
+    return 1
+  }
+  return 0
 }
 
 func (m *MainMenuScene) Draw(screen *ebiten.Image, textures textures.Tex) {
@@ -51,6 +56,9 @@ func (m *MainMenuScene) Input() error {
   } else if inpututil.IsKeyJustPressed(ebiten.KeyK) {
     m.CursorPosition -= 1
   }
+  if inpututil.IsKeyJustPressed(ebiten.KeySpace) && m.CursorPosition == 1 { 
+    m.NewGameChoosed = true
+  }
   return nil
 }
 
@@ -61,8 +69,8 @@ func (m *MainMenuScene) Init(screenW, screenH int) {
   m.CursorPosition = 0
   m.MaxCursorPosition = 1
   m.CursorSprite = gameObjects.Sprite{
-    Width: 32,
-    Height: 32,
+    Width: 16,
+    Height: 16,
     Xpos: screenW/2,
     Ypos: screenH/2,
   }
@@ -78,5 +86,6 @@ func (m *MainMenuScene) Init(screenW, screenH int) {
     Xpos: screenW/2 - 120,
     Ypos: screenH/2+64,
   }
+  m.NewGameChoosed = false
   m.State = Ready
 }

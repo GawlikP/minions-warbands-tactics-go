@@ -12,5 +12,5 @@ type CurrentScene int
 
 const (
   MainMenu CurrentScene = iota
-  WarSimulation // to do in 0.1
+  BattleSimulation // to do in 0.1
 )

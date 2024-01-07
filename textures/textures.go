@@ -8,14 +8,19 @@ import (
   "github.com/hajimehoshi/ebiten/v2/ebitenutil"
   "golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
+  "minions-warbands-tactics/constants"
   "io/ioutil"
 )
 
 type Tex struct {
-  standardFont font.Face
-  Cursor *ebiten.Image
-  NewGameBanner *ebiten.Image
-  ExitGameBanner *ebiten.Image
+  StandardFont      font.Face
+  Cursor            *ebiten.Image
+  NewGameBanner     *ebiten.Image
+  ExitGameBanner    *ebiten.Image
+  GrassTile         *ebiten.Image
+  StoneTile         *ebiten.Image
+  SandTile          *ebiten.Image
+  UIBadge           *ebiten.Image
 }
 
 func (t *Tex) InitTextures() {
@@ -29,9 +34,44 @@ func (t *Tex) InitTextures() {
   if err != nil {
     log.Fatal(err)
   }
-  t.Cursor = ScaleTexture(img, 32, 32)
-  log.Print("Initialized the cursor Texture")
-  
+  t.Cursor = ScaleTexture(img, constants.CURSORSIZE, constants.CURSORSIZE)
+  log.Print("Initialized the Cursor Texture")
+
+  img, _, err = ebitenutil.NewImageFromFile("images/ui_badge.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+  t.UIBadge = ScaleTexture(img, constants.BANNERWIDTH, constants.BANNERHEIGHT)
+  log.Print("Initialized the UIBadge Texture")
+
+
+  // TILES INITIALIZATION
+  log.Print("Initializing the tiles textures")
+  img, _, err = ebitenutil.NewImageFromFile("images/grass_tile.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  t.GrassTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  log.Print("Initialized the GrassTile Texture")
+
+  img, _, err = ebitenutil.NewImageFromFile("images/stone_tile.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  t.StoneTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  log.Print("Initialized the StoneTile Texture")
+
+  img, _, err = ebitenutil.NewImageFromFile("images/sand_tile.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  t.SandTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  log.Print("Initialized the SandTile Texture")
+
+  // PRIMITIVES
   t.NewGameBanner = t.GeneratePrimitiveBanner("NEW GAME", color.RGBA{200,100,100,100})
   t.ExitGameBanner = t.GeneratePrimitiveBanner("EXIT GAME", color.RGBA{200,100,100,100})
 }
@@ -58,9 +98,9 @@ func (t *Tex) InitFonts() error {
   if err != nil {
     return err
   }
-  t.standardFont, err = opentype.NewFace(tt, &opentype.FaceOptions{
-    Size: 16,
-    DPI:  128,
+  t.StandardFont, err = opentype.NewFace(tt, &opentype.FaceOptions{
+    Size: constants.FONTSIZE,
+    DPI:  64,
   })
   if err != nil {
     return err
@@ -70,11 +110,11 @@ func (t *Tex) InitFonts() error {
 
 func (t *Tex) GeneratePrimitiveBanner(msg string, c color.Color) *ebiten.Image {
   log.Printf("Generating Banner with text %s and color %v", msg, c)
-  banner := ebiten.NewImage(240, 64)
+  banner := ebiten.NewImage(constants.BANNERWIDTH, constants.BANNERHEIGHT)
   bannerTexture := ebiten.NewImageFromImage(banner)
   bannerTexture.Fill(c)
-  bannerMiddle := 240/2
-  textLength := len(msg)*8
-  text.Draw(bannerTexture, msg, t.standardFont, bannerMiddle-textLength, 32, color.White)
+  bannerMiddle := constants.BANNERWIDTH/2
+  textLength := len(msg)*constants.FONTSIZE
+  text.Draw(bannerTexture, msg, t.StandardFont, bannerMiddle-textLength, constants.FONTSIZE*2, color.White)
   return bannerTexture
 }
