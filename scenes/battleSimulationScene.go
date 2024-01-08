@@ -24,6 +24,7 @@ func (b *BattleSimulationScene) Update() error {
   b.Input()
   b.Cursor.CursorSprite.Xpos = b.Cursor.Xpos
   b.Cursor.CursorSprite.Ypos = b.Cursor.Ypos
+  b.BattleMap.Update()
   return nil
 }
 
@@ -73,10 +74,12 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     },
   }
   b.BattleMap = gameObjects.BattleMap{
-    Units: []gameObjects.Unit{{},{}},
+    Minions: []gameObjects.Minion{},
     Tiles: maps.StandardTileMap,
     Width: maps.StandardTileMapWidth,
   }
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitRatMinion(1,3)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitFishMinion(6,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready
   b.BattleState = Ready

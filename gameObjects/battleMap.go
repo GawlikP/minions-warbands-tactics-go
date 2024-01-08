@@ -16,19 +16,30 @@ const (
 
 type BattleMap struct {
   Tiles   []BattleMapTileType
-  Units   []Unit
+  Minions []Minion
   Width   int
 }
 
-func (b *BattleMap) Update() {}
+func (b *BattleMap) Update() {
+  for idx := range b.Minions {
+    b.Minions[idx].Update()
+  }
+}
 
 func (b *BattleMap) Draw(screen *ebiten.Image, tex textures.Tex) {
   b.RenderTiles(screen, tex)
+  b.RenderMinions(screen, tex)
 }
 
 func (b *BattleMap) Input() {}
 
 func (b *BattleMap) Init() {}
+
+func (b *BattleMap) RenderMinions(screen *ebiten.Image, tex textures.Tex) {
+  for idx := range b.Minions {
+    b.Minions[idx].Draw(screen, tex)
+  }
+}
 
 func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex textures.Tex) {
   Op := &ebiten.DrawImageOptions{}

@@ -21,8 +21,11 @@ type Tex struct {
   StoneTile         *ebiten.Image
   SandTile          *ebiten.Image
   UIBadge           *ebiten.Image
+  //Minions
+  FishMinion        *ebiten.Image
+  RatMinion         *ebiten.Image
 }
-
+// TODO: REFACTOR INITIALIZATION
 func (t *Tex) InitTextures() {
   var err error
   var img *ebiten.Image
@@ -71,6 +74,24 @@ func (t *Tex) InitTextures() {
   t.SandTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
   log.Print("Initialized the SandTile Texture")
 
+  //Units Initialization
+
+  img, _, err = ebitenutil.NewImageFromFile("images/fish_unit.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  t.FishMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
+  log.Print("Initialized the SandTile Texture")
+
+  img, _, err = ebitenutil.NewImageFromFile("images/mouse_unit.png")
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  t.RatMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
+  log.Print("Initialized the SandTile Texture")
+
   // PRIMITIVES
   t.NewGameBanner = t.GeneratePrimitiveBanner("NEW GAME", color.RGBA{200,100,100,100})
   t.ExitGameBanner = t.GeneratePrimitiveBanner("EXIT GAME", color.RGBA{200,100,100,100})
@@ -100,7 +121,7 @@ func (t *Tex) InitFonts() error {
   }
   t.StandardFont, err = opentype.NewFace(tt, &opentype.FaceOptions{
     Size: constants.FONTSIZE,
-    DPI:  64,
+    DPI:  72,
   })
   if err != nil {
     return err
@@ -113,8 +134,12 @@ func (t *Tex) GeneratePrimitiveBanner(msg string, c color.Color) *ebiten.Image {
   banner := ebiten.NewImage(constants.BANNERWIDTH, constants.BANNERHEIGHT)
   bannerTexture := ebiten.NewImageFromImage(banner)
   bannerTexture.Fill(c)
-  bannerMiddle := constants.BANNERWIDTH/2
-  textLength := len(msg)*constants.FONTSIZE
-  text.Draw(bannerTexture, msg, t.StandardFont, bannerMiddle-textLength, constants.FONTSIZE*2, color.White)
+  DrawCenteredText(bannerTexture, t.StandardFont, msg, constants.BANNERWIDTH/2, constants.BANNERHEIGHT/2)
   return bannerTexture
+}
+
+func DrawCenteredText(screen *ebiten.Image, font font.Face, s string, cx, cy int) {
+    bounds := text.BoundString(font, s)
+    x, y := cx-bounds.Min.X-bounds.Dx()/2, cy-bounds.Min.Y-bounds.Dy()/2
+    text.Draw(screen, s, font, x, y,  color.White)
 }
