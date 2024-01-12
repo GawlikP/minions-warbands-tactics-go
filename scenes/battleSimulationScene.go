@@ -38,14 +38,14 @@ func (b *BattleSimulationScene) Draw(screen *ebiten.Image, textures textures.Tex
 
 func (b *BattleSimulationScene) Input() error {
   if ebiten.IsKeyPressed(ebiten.KeyJ) {
-    b.Cursor.Ypos += 1
+    b.Cursor.Ypos += 1 * b.Cursor.Speed
   } else if ebiten.IsKeyPressed(ebiten.KeyK) {
-    b.Cursor.Ypos -= 1
+    b.Cursor.Ypos -= 1 * b.Cursor.Speed
   }
   if ebiten.IsKeyPressed(ebiten.KeyH) {
-    b.Cursor.Xpos -= 1
+    b.Cursor.Xpos -= 1 * b.Cursor.Speed
   } else if ebiten.IsKeyPressed(ebiten.KeyL) {
-    b.Cursor.Xpos += 1
+    b.Cursor.Xpos += 1 * b.Cursor.Speed
   }
   if inpututil.IsKeyJustPressed(ebiten.KeyI) {
     b.BattleFieldBadge.Msg = b.BattleMap.GetCurrentTileName(
@@ -53,7 +53,18 @@ func (b *BattleSimulationScene) Input() error {
       b.Cursor.Ypos,
     )
     b.BattleFieldBadge.Active = !b.BattleFieldBadge.Active
-    log.Printf("BattleFieldBadge Active: %v", b.BattleFieldBadge.Active)
+    // log.Printf("BattleFieldBadge Active: %v", b.BattleFieldBadge.Active)
+  }
+  if inpututil.IsKeyJustPressed(ebiten.KeyX) {
+    if index := b.BattleMap.GetTileIndex(b.Cursor.Xpos, b.Cursor.Ypos); index != -1 {
+      log.Printf("Updated TargetIndex: %d", index)
+      b.BattleMap.Minions[0].TargetIndex = index
+    }
+  }
+  if ebiten.IsKeyPressed(ebiten.KeyShift) {
+    b.Cursor.Speed = 10
+  } else {
+    b.Cursor.Speed = 1
   }
   return nil  
 }
@@ -72,13 +83,14 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
       Width: 16,
       Height: 16,
     },
+    Speed: 1,
   }
   b.BattleMap = gameObjects.BattleMap{
     Minions: []gameObjects.Minion{},
     Tiles: maps.StandardTileMap,
     Width: maps.StandardTileMapWidth,
   }
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitRatMinion(1,3)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitRatMinion(0,0)) 
   b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitFishMinion(6,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready

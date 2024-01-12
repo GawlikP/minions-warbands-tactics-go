@@ -21,9 +21,7 @@ type BattleMap struct {
 }
 
 func (b *BattleMap) Update() {
-  for idx := range b.Minions {
-    b.Minions[idx].Update()
-  }
+  b.UpdateMinions()
 }
 
 func (b *BattleMap) Draw(screen *ebiten.Image, tex textures.Tex) {
@@ -65,8 +63,8 @@ func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex textures.Tex) {
 }
 
 func (b *BattleMap) GetCurrentTileName(x, y int) string {
-  index := x/constants.TILESIZE +  y/constants.TILESIZE * b.Width
-  if index > len(b.Tiles)-1 || index < 0 {
+  index := b.GetTileIndex(x, y)
+  if index == -1 {
     return "Out of Map"
   }
   switch b.Tiles[index] {
@@ -78,4 +76,18 @@ func (b *BattleMap) GetCurrentTileName(x, y int) string {
       return "Sand"
   }
   return ""
+}
+
+func (b *BattleMap) GetTileIndex(x, y int) int {
+  index := x/constants.TILESIZE +  y/constants.TILESIZE * b.Width
+  if index > len(b.Tiles)-1 || index < 0 {
+    return -1
+  }
+  return index
+}
+
+func (b *BattleMap) UpdateMinions() {
+  for idx := range b.Minions {
+    b.Minions[idx].Update(b.Tiles, b.Width)
+  }
 }
