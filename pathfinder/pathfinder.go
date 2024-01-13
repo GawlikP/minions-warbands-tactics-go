@@ -1,6 +1,7 @@
-package gameObject
+package pathfinder
 
 import (
+  "minions-warbands-tactics/constant"
   "fmt"
   "slices"
   "math"
@@ -18,7 +19,7 @@ type Node struct {
   Block   bool
 }
 
-func AStar(sx, sy, dx, dy, width int, grid []BattleMapTileType) ([]int, error) {
+func AStar(sx, sy, dx, dy, width int, grid []constant.BattleMapTileType) ([]int, error) {
   Start := Node{
     X: sx,
     Y: sy,
@@ -116,7 +117,7 @@ func generatePath(node Node, width int) []int {
 }
 
 
-func getNeighbors(node Node, currentNodeIndex int, grid []BattleMapTileType, width int, Nodes []Node) []Node {
+func getNeighbors(node Node, currentNodeIndex int, grid []constant.BattleMapTileType, width int, Nodes []Node) []Node {
 	var neighbors []Node
   length := len(grid)
   left := leftIndex(node, width, length)
@@ -124,22 +125,22 @@ func getNeighbors(node Node, currentNodeIndex int, grid []BattleMapTileType, wid
   up := upIndex(node, width, length)
   down := downIndex(node, width, length)
 
-  if left != -1 && grid[left] != Stone {
+  if left != -1 && grid[left] != constant.Stone {
     node := Nodes[left]
     node.Parent = &Nodes[currentNodeIndex]
     neighbors = append(neighbors, node)
   }
-  if right != -1 && grid[right] != Stone {
+  if right != -1 && grid[right] != constant.Stone {
     node := Nodes[right]
     node.Parent = &Nodes[currentNodeIndex]
     neighbors = append(neighbors, node)
   }
-  if up != -1 && grid[up] != Stone {
+  if up != -1 && grid[up] != constant.Stone {
     node := Nodes[up]
     node.Parent = &Nodes[currentNodeIndex]
     neighbors = append(neighbors, node)
   }
-  if down != -1 && grid[down] != Stone {
+  if down != -1 && grid[down] != constant.Stone {
     node := Nodes[down]
     node.Parent = &Nodes[currentNodeIndex]
     neighbors = append(neighbors, node)
@@ -179,7 +180,7 @@ func downIndex(node Node, width int, length int) int {
   return -1
 }
 
-func GenerateNodes(grid []BattleMapTileType, width int) []Node {
+func GenerateNodes(grid []constant.BattleMapTileType, width int) []Node {
   var nodes []Node
   for i := 0; i < len(grid); i++ {
     node := Node{
@@ -191,7 +192,7 @@ func GenerateNodes(grid []BattleMapTileType, width int) []Node {
       Block: false,
       Parent: nil,
     }
-    if grid[i] == Stone {
+    if grid[i] == constant.Stone {
       node.Block = true
     }
     nodes = append(nodes, node)

@@ -1,22 +1,15 @@
-package gameObject
+package battle
 
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
   "minions-warbands-tactics/constant"
-)
-
-type BattleMapTileType int
-
-const (
-  Grass BattleMapTileType = iota
-  Sand
-  Stone
+  "minions-warbands-tactics/minion"
 )
 
 type BattleMap struct {
-  Tiles   []BattleMapTileType
-  Minions []Minion
+  Tiles   []constant.BattleMapTileType
+  Minions []minion.Minion
   Width   int
 }
 
@@ -52,11 +45,11 @@ func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex texture.Tex) {
     Op.GeoM.Reset()
     Op.GeoM.Translate(float64(x*constant.TILESIZE), float64(y*constant.TILESIZE))
     switch v {
-      case Grass:
+      case constant.Grass:
         screen.DrawImage(tex.GrassTile, Op)
-      case Stone:
+      case constant.Stone:
         screen.DrawImage(tex.StoneTile, Op)
-      case Sand:
+      case constant.Sand:
         screen.DrawImage(tex.SandTile, Op)
     }
   }
@@ -68,11 +61,11 @@ func (b *BattleMap) GetCurrentTileName(x, y int) string {
     return "Out of Map"
   }
   switch b.Tiles[index] {
-    case Grass:
+    case constant.Grass:
       return "Grass"
-    case Stone:
+    case constant.Stone:
       return "Stone" 
-    case Sand:
+    case constant.Sand:
       return "Sand"
   }
   return ""
@@ -91,3 +84,4 @@ func (b *BattleMap) UpdateMinions(ticks int) {
     b.Minions[idx].Update(b.Tiles, b.Width, ticks)
   }
 }
+

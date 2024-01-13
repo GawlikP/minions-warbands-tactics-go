@@ -1,4 +1,4 @@
-package gameObject
+package minion
 
 import (
   "minions-warbands-tactics/texture"

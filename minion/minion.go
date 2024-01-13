@@ -1,10 +1,12 @@
-package gameObject
+package minion
 
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
-  "log"
+  "minions-warbands-tactics/pathfinder"
   "minions-warbands-tactics/constant"
+  "minions-warbands-tactics/gameObject"
+  "log"
 )
 
 type Minion struct {
@@ -13,7 +15,7 @@ type Minion struct {
   MaxHealth   int64
   Damage      int64
   Speed       int64
-  USprite     Sprite
+  USprite     gameObject.Sprite
   Xpos        float64
   Ypos        float64
   Defeated    bool
@@ -36,13 +38,13 @@ func (u *Minion) Draw(screen *ebiten.Image, tex texture.Tex) {
   }
 }
 
-func (u *Minion) GeneratePath(grid []BattleMapTileType, width int) (error) {
+func (u *Minion) GeneratePath(grid []constant.BattleMapTileType, width int) (error) {
   var err error
   //StartX, StartY, TargetX, TargetY, Width, Grid
   // POINT 0,0 dont work
   dx, dy := u.TargetIndex%width, u.TargetIndex/width
   log.Printf("PATHFINDING, DESTINATION DX:%d DY:%d", dx, dy)
-  u.Path, err = AStar(
+  u.Path, err = pathfinder.AStar(
     int(u.Xpos/constant.TILESIZE),
     int(u.Ypos/constant.TILESIZE),
     dx,
@@ -61,7 +63,7 @@ func (u *Minion) GeneratePath(grid []BattleMapTileType, width int) (error) {
   return err
 }
 
-func (u *Minion) Update(grid []BattleMapTileType, width int, ticks int) {
+func (u *Minion) Update(grid []constant.BattleMapTileType, width int, ticks int) {
   u.HandleAnimation(ticks)
   if u.TargetIndex != -1 {
     u.PathIndex = -1

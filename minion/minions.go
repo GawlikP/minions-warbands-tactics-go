@@ -1,8 +1,9 @@
-package gameObject
+package minion
 
 import (
   "minions-warbands-tactics/constant"
   "minions-warbands-tactics/texture"
+  "minions-warbands-tactics/gameObject"
 )
 
 type MinionType int
@@ -21,7 +22,7 @@ func InitRatMinion(x, y int) Minion {
     MaxHealth:    1,
     Damage:       1,
     Speed:        100,
-    USprite:      Sprite{},
+    USprite:      gameObject.Sprite{},
     Xpos:         float64(x*constant.TILESIZE),
     Ypos:         float64(y*constant.TILESIZE),
     Defeated:     false,
@@ -41,7 +42,7 @@ func InitFishMinion(x, y int) Minion {
     MaxHealth:  1,
     Damage:     1,
     Speed:      1,
-    USprite:    Sprite{},
+    USprite:    gameObject.Sprite{},
     Xpos:       float64(x*constant.TILESIZE),
     Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,
@@ -61,7 +62,7 @@ func InitBaltieMinion(x, y int) Minion {
     MaxHealth:  1,
     Damage:     1,
     Speed:      150,
-    USprite:    Sprite{},
+    USprite:    gameObject.Sprite{},
     Xpos:       float64(x*constant.TILESIZE),
     Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,
@@ -81,7 +82,7 @@ func InitThreedyMinion(x, y int) Minion {
     MaxHealth:  1,
     Damage:     1,
     Speed:      200,
-    USprite:    Sprite{},
+    USprite:    gameObject.Sprite{},
     Xpos:       float64(x*constant.TILESIZE),
     Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,

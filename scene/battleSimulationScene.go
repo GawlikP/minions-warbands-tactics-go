@@ -7,6 +7,8 @@ import (
   "minions-warbands-tactics/texture"
   "minions-warbands-tactics/tilemap"
   "minions-warbands-tactics/ui"
+  "minions-warbands-tactics/battle"
+  "minions-warbands-tactics/minion"
   "log"
 )
 
@@ -15,7 +17,7 @@ type BattleSimulationScene struct {
   sceneW              int
   sceneH              int
   Cursor              gameObject.MapCursor
-  BattleMap           gameObject.BattleMap 
+  BattleMap           battle.BattleMap 
   BattleState         SceneState
   BattleFieldBadge    ui.InfoBadge
 }
@@ -85,13 +87,13 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     },
     Speed: 1,
   }
-  b.BattleMap = gameObject.BattleMap{
-    Minions: []gameObject.Minion{},
+  b.BattleMap = battle.BattleMap{
+    Minions: []minion.Minion{},
     Tiles: tilemap.StandardTileMap,
     Width: tilemap.StandardTileMapWidth,
   }
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitBaltieMinion(0,0)) 
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitFishMinion(6,4)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, minion.InitBaltieMinion(0,0)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, minion.InitFishMinion(6,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready
   b.BattleState = Ready

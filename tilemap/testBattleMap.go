@@ -1,32 +1,32 @@
 package tilemap
 
 import (
-  "minions-warbands-tactics/gameObject"
+  "minions-warbands-tactics/constant"
   "log"
 )
 
-var StandardTileMap []gameObject.BattleMapTileType
+var StandardTileMap []constant.BattleMapTileType
 const StandardTileMapWidth = 10
 
 func InitializeStandardMap() {
   // blocks := []int{}
   // for i := 0; i < StandardTileMapWidth * 8; i++ {
-  //   StandardTileMap = append(StandardTileMap, gameObject.Grass)
+  //   StandardTileMap = append(StandardTileMap, constant.Grass)
   // }
   //
   // for _, v := range blocks {
-  //   StandardTileMap[v] = gameObject.Stone
+  //   StandardTileMap[v] = constant.Stone
   // }
 
-  StandardTileMap = []gameObject.BattleMapTileType{
-    gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Grass, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
-    gameObject.Grass, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Stone, gameObject.Grass, gameObject.Grass, gameObject.Grass,
+  StandardTileMap = []constant.BattleMapTileType{
+    constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Grass, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass, constant.Grass, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
+    constant.Grass, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Stone, constant.Grass, constant.Grass, constant.Grass,
   }
 
   log.Printf("Standard test map size: %d", len(StandardTileMap))
