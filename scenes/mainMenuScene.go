@@ -3,19 +3,19 @@ package scenes
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "github.com/hajimehoshi/ebiten/v2/inpututil"
-  "minions-warbands-tactics/gameObjects"
+  "minions-warbands-tactics/gameObject"
   "minions-warbands-tactics/texture"
 )
 
 type MainMenuScene struct {
   CursorPosition      int
   MaxCursorPosition   int
-  CursorSprite        gameObjects.Sprite
+  CursorSprite        gameObject.Sprite
   State               SceneState
   sceneW              int
   sceneH              int
-  NewGameSprite       gameObjects.Sprite
-  ExitGameSprite      gameObjects.Sprite
+  NewGameSprite       gameObject.Sprite
+  ExitGameSprite      gameObject.Sprite
   NewGameChoosed      bool
 }
 
@@ -68,19 +68,19 @@ func (m *MainMenuScene) Init(screenW, screenH int) {
   m.State = Starting
   m.CursorPosition = 0
   m.MaxCursorPosition = 1
-  m.CursorSprite = gameObjects.Sprite{
+  m.CursorSprite = gameObject.Sprite{
     Width: 16,
     Height: 16,
     Xpos: screenW/2,
     Ypos: screenH/2,
   }
-  m.NewGameSprite = gameObjects.Sprite{
+  m.NewGameSprite = gameObject.Sprite{
     Width: 240,
     Height: 64,
     Xpos: screenW/2 - 120,
     Ypos: screenH/2-64,
   }
-  m.ExitGameSprite = gameObjects.Sprite{
+  m.ExitGameSprite = gameObject.Sprite{
     Width: 240,
     Height: 64,
     Xpos: screenW/2 - 120,

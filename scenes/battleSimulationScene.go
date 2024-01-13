@@ -3,7 +3,7 @@ package scenes
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "github.com/hajimehoshi/ebiten/v2/inpututil"
-  "minions-warbands-tactics/gameObjects"
+  "minions-warbands-tactics/gameObject"
   "minions-warbands-tactics/texture"
   "minions-warbands-tactics/maps"
   "minions-warbands-tactics/ui"
@@ -14,8 +14,8 @@ type BattleSimulationScene struct {
   State               SceneState
   sceneW              int
   sceneH              int
-  Cursor              gameObjects.MapCursor
-  BattleMap           gameObjects.BattleMap 
+  Cursor              gameObject.MapCursor
+  BattleMap           gameObject.BattleMap 
   BattleState         SceneState
   BattleFieldBadge    ui.InfoBadge
 }
@@ -74,10 +74,10 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
   b.sceneH = screenH
   b.State = Starting
   b.BattleState = Starting
-  b.Cursor = gameObjects.MapCursor{
+  b.Cursor = gameObject.MapCursor{
     Xpos: 0,
     Ypos: 0,
-    CursorSprite: gameObjects.Sprite{
+    CursorSprite: gameObject.Sprite{
       Xpos: 0,
       Ypos: 0,
       Width: 16,
@@ -85,13 +85,13 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     },
     Speed: 1,
   }
-  b.BattleMap = gameObjects.BattleMap{
-    Minions: []gameObjects.Minion{},
+  b.BattleMap = gameObject.BattleMap{
+    Minions: []gameObject.Minion{},
     Tiles: maps.StandardTileMap,
     Width: maps.StandardTileMapWidth,
   }
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitBaltieMinion(0,0)) 
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitFishMinion(6,4)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitBaltieMinion(0,0)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitFishMinion(6,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready
   b.BattleState = Ready

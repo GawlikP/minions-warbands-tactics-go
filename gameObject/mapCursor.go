@@ -1,4 +1,4 @@
-package gameObjects
+package gameObject
 
 type MapCursor struct {
   Xpos          int

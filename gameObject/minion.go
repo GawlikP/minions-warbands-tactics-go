@@ -1,4 +1,4 @@
-package gameObjects
+package gameObject
 
 import (
   "github.com/hajimehoshi/ebiten/v2"

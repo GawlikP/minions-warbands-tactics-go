@@ -1,4 +1,4 @@
-package gameObjects
+package gameObject
 
 import (
   "minions-warbands-tactics/constants"
