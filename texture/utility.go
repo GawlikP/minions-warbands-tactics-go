@@ -7,7 +7,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2/text"
   "github.com/hajimehoshi/ebiten/v2/ebitenutil"
   "golang.org/x/image/font"
-  "minions-warbands-tactics/constants"
+  "minions-warbands-tactics/constant"
   "fmt"
 )
 
@@ -56,7 +56,7 @@ func LoadAnimationFrames(name string, animationType string, frames int, flip boo
     if flip {
       img = FlipHorizontal(img)
     }
-    array = append(array, ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE))
+    array = append(array, ScaleTexture(img, constant.UNITSIZE, constant.UNITSIZE))
   }
   return array
 }

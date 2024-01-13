@@ -6,7 +6,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2"
   "golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
-  "minions-warbands-tactics/constants"
+  "minions-warbands-tactics/constant"
   "io/ioutil"
 )
 
@@ -40,11 +40,11 @@ func (t *Tex) InitTextures() {
     log.Fatal(err)
   }
   img = LoadTexture("images/cursor.png")
-  t.Cursor = ScaleTexture(img, constants.CURSORSIZE, constants.CURSORSIZE)
+  t.Cursor = ScaleTexture(img, constant.CURSORSIZE, constant.CURSORSIZE)
   log.Print("Initialized the Cursor Texture")
 
   img = LoadTexture("images/ui_badge.png")
-  t.UIBadge = ScaleTexture(img, constants.BANNERWIDTH, constants.BANNERHEIGHT)
+  t.UIBadge = ScaleTexture(img, constant.BANNERWIDTH, constant.BANNERHEIGHT)
   log.Print("Initialized the UIBadge Texture")
 
 
@@ -52,24 +52,24 @@ func (t *Tex) InitTextures() {
   log.Print("Initializing the tiles textures")
 
   img = LoadTexture("images/grass_tile.png")
-  t.GrassTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  t.GrassTile = ScaleTexture(img, constant.TILESIZE, constant.TILESIZE)
   log.Print("Initialized the GrassTile Texture")
 
   img = LoadTexture("images/StoneWall.png")
-  t.StoneTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  t.StoneTile = ScaleTexture(img, constant.TILESIZE, constant.TILESIZE)
   log.Print("Initialized the StoneTile Texture")
 
   img = LoadTexture("images/sand_tile.png")
-  t.SandTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
+  t.SandTile = ScaleTexture(img, constant.TILESIZE, constant.TILESIZE)
   log.Print("Initialized the SandTile Texture")
 
   //Units Initialization
   img = LoadTexture("images/fish_unit.png")
-  t.FishMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
+  t.FishMinion = ScaleTexture(img, constant.UNITSIZE, constant.UNITSIZE)
   log.Print("Initialized the Fish unit Texture")
 
   img = LoadTexture("images/mouse_unit.png")
-  t.RatMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
+  t.RatMinion = ScaleTexture(img, constant.UNITSIZE, constant.UNITSIZE)
   log.Print("Initialized the Mouse Texture")
 
   // PRIMITIVES
@@ -91,7 +91,7 @@ func (t *Tex) InitFonts() error {
     return err
   }
   t.StandardFont, err = opentype.NewFace(tt, &opentype.FaceOptions{
-    Size: constants.FONTSIZE,
+    Size: constant.FONTSIZE,
     DPI:  72,
   })
   if err != nil {
@@ -102,9 +102,9 @@ func (t *Tex) InitFonts() error {
 
 func (t *Tex) GeneratePrimitiveBanner(msg string, c color.Color) *ebiten.Image {
   log.Printf("Generating Banner with text %s and color %v", msg, c)
-  banner := ebiten.NewImage(constants.BANNERWIDTH, constants.BANNERHEIGHT)
+  banner := ebiten.NewImage(constant.BANNERWIDTH, constant.BANNERHEIGHT)
   bannerTexture := ebiten.NewImageFromImage(banner)
   bannerTexture.Fill(c)
-  DrawCenteredText(bannerTexture, t.StandardFont, msg, constants.BANNERWIDTH/2, constants.BANNERHEIGHT/2)
+  DrawCenteredText(bannerTexture, t.StandardFont, msg, constant.BANNERWIDTH/2, constant.BANNERHEIGHT/2)
   return bannerTexture
 }

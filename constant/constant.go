@@ -1,4 +1,4 @@
-package constants
+package constant
 
 const TILESIZE = 32
 const BANNERWIDTH = 240

@@ -4,7 +4,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
   "log"
-  "minions-warbands-tactics/constants"
+  "minions-warbands-tactics/constant"
 )
 
 type Minion struct {
@@ -43,8 +43,8 @@ func (u *Minion) GeneratePath(grid []BattleMapTileType, width int) (error) {
   dx, dy := u.TargetIndex%width, u.TargetIndex/width
   log.Printf("PATHFINDING, DESTINATION DX:%d DY:%d", dx, dy)
   u.Path, err = AStar(
-    int(u.Xpos/constants.TILESIZE),
-    int(u.Ypos/constants.TILESIZE),
+    int(u.Xpos/constant.TILESIZE),
+    int(u.Ypos/constant.TILESIZE),
     dx,
     dy,
     width,
@@ -82,7 +82,7 @@ func (u *Minion) Update(grid []BattleMapTileType, width int, ticks int) {
 
 func (u *Minion) MoveOnPath(width int) {
   if u.PathIndex != -1 && len(u.Path) != 0 {
-    x, y := u.Path[u.PathIndex]%width*constants.TILESIZE, u.Path[u.PathIndex]/width*constants.TILESIZE
+    x, y := u.Path[u.PathIndex]%width*constant.TILESIZE, u.Path[u.PathIndex]/width*constant.TILESIZE
     if int(u.Xpos) > x - 6 && int(u.Xpos) < x + 6 && int(u.Ypos) > y - 6 && int(u.Ypos) < y + 6 {
       u.PathIndex -= 1
     } else {

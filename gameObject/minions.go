@@ -1,7 +1,7 @@
 package gameObject
 
 import (
-  "minions-warbands-tactics/constants"
+  "minions-warbands-tactics/constant"
   "minions-warbands-tactics/texture"
 )
 
@@ -22,8 +22,8 @@ func InitRatMinion(x, y int) Minion {
     Damage:       1,
     Speed:        100,
     USprite:      Sprite{},
-    Xpos:         float64(x*constants.TILESIZE),
-    Ypos:         float64(y*constants.TILESIZE),
+    Xpos:         float64(x*constant.TILESIZE),
+    Ypos:         float64(y*constant.TILESIZE),
     Defeated:     false,
     Direction:    0,
     Path:         []int{},
@@ -42,8 +42,8 @@ func InitFishMinion(x, y int) Minion {
     Damage:     1,
     Speed:      1,
     USprite:    Sprite{},
-    Xpos:       float64(x*constants.TILESIZE),
-    Ypos:       float64(y*constants.TILESIZE),
+    Xpos:       float64(x*constant.TILESIZE),
+    Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,
     Direction:    0,
     Path:         []int{},
@@ -62,8 +62,8 @@ func InitBaltieMinion(x, y int) Minion {
     Damage:     1,
     Speed:      150,
     USprite:    Sprite{},
-    Xpos:       float64(x*constants.TILESIZE),
-    Ypos:       float64(y*constants.TILESIZE),
+    Xpos:       float64(x*constant.TILESIZE),
+    Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,
     Direction:    4,
     Path:         []int{},
@@ -82,8 +82,8 @@ func InitThreedyMinion(x, y int) Minion {
     Damage:     1,
     Speed:      200,
     USprite:    Sprite{},
-    Xpos:       float64(x*constants.TILESIZE),
-    Ypos:       float64(y*constants.TILESIZE),
+    Xpos:       float64(x*constant.TILESIZE),
+    Ypos:       float64(y*constant.TILESIZE),
     Defeated:     false,
     Direction:    4,
     Path:         []int{},

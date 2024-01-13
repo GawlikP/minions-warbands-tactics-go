@@ -3,7 +3,7 @@ package gameObject
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
-  "minions-warbands-tactics/constants"
+  "minions-warbands-tactics/constant"
 )
 
 type BattleMapTileType int
@@ -50,7 +50,7 @@ func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex texture.Tex) {
     }
 
     Op.GeoM.Reset()
-    Op.GeoM.Translate(float64(x*constants.TILESIZE), float64(y*constants.TILESIZE))
+    Op.GeoM.Translate(float64(x*constant.TILESIZE), float64(y*constant.TILESIZE))
     switch v {
       case Grass:
         screen.DrawImage(tex.GrassTile, Op)
@@ -79,7 +79,7 @@ func (b *BattleMap) GetCurrentTileName(x, y int) string {
 }
 
 func (b *BattleMap) GetTileIndex(x, y int) int {
-  index := x/constants.TILESIZE +  y/constants.TILESIZE * b.Width
+  index := x/constant.TILESIZE +  y/constant.TILESIZE * b.Width
   if index > len(b.Tiles)-1 || index < 0 {
     return -1
   }
