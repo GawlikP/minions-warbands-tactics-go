@@ -20,8 +20,8 @@ type BattleMap struct {
   Width   int
 }
 
-func (b *BattleMap) Update() {
-  b.UpdateMinions()
+func (b *BattleMap) Update(ticks int) {
+  b.UpdateMinions(ticks)
 }
 
 func (b *BattleMap) Draw(screen *ebiten.Image, tex textures.Tex) {
@@ -86,8 +86,8 @@ func (b *BattleMap) GetTileIndex(x, y int) int {
   return index
 }
 
-func (b *BattleMap) UpdateMinions() {
+func (b *BattleMap) UpdateMinions(ticks int) {
   for idx := range b.Minions {
-    b.Minions[idx].Update(b.Tiles, b.Width)
+    b.Minions[idx].Update(b.Tiles, b.Width, ticks)
   }
 }

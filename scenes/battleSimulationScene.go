@@ -20,11 +20,11 @@ type BattleSimulationScene struct {
   BattleFieldBadge    ui.InfoBadge
 }
 
-func (b *BattleSimulationScene) Update() error {
+func (b *BattleSimulationScene) Update(ticks int) error {
   b.Input()
   b.Cursor.CursorSprite.Xpos = b.Cursor.Xpos
   b.Cursor.CursorSprite.Ypos = b.Cursor.Ypos
-  b.BattleMap.Update()
+  b.BattleMap.Update(ticks)
   return nil
 }
 
@@ -37,14 +37,14 @@ func (b *BattleSimulationScene) Draw(screen *ebiten.Image, textures textures.Tex
 }
 
 func (b *BattleSimulationScene) Input() error {
-  if ebiten.IsKeyPressed(ebiten.KeyJ) {
+  if ebiten.IsKeyPressed(ebiten.KeyJ) || ebiten.IsKeyPressed(ebiten.KeyS){
     b.Cursor.Ypos += 1 * b.Cursor.Speed
-  } else if ebiten.IsKeyPressed(ebiten.KeyK) {
+  } else if ebiten.IsKeyPressed(ebiten.KeyK) || ebiten.IsKeyPressed(ebiten.KeyW) {
     b.Cursor.Ypos -= 1 * b.Cursor.Speed
   }
-  if ebiten.IsKeyPressed(ebiten.KeyH) {
+  if ebiten.IsKeyPressed(ebiten.KeyH) || ebiten.IsKeyPressed(ebiten.KeyA) {
     b.Cursor.Xpos -= 1 * b.Cursor.Speed
-  } else if ebiten.IsKeyPressed(ebiten.KeyL) {
+  } else if ebiten.IsKeyPressed(ebiten.KeyL) || ebiten.IsKeyPressed(ebiten.KeyD) {
     b.Cursor.Xpos += 1 * b.Cursor.Speed
   }
   if inpututil.IsKeyJustPressed(ebiten.KeyI) {
@@ -62,9 +62,9 @@ func (b *BattleSimulationScene) Input() error {
     }
   }
   if ebiten.IsKeyPressed(ebiten.KeyShift) {
-    b.Cursor.Speed = 10
+    b.Cursor.Speed = 6
   } else {
-    b.Cursor.Speed = 1
+    b.Cursor.Speed = 3
   }
   return nil  
 }
@@ -90,7 +90,7 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     Tiles: maps.StandardTileMap,
     Width: maps.StandardTileMapWidth,
   }
-  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitRatMinion(0,0)) 
+  b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitBaltieMinion(0,0)) 
   b.BattleMap.Minions = append(b.BattleMap.Minions, gameObjects.InitFishMinion(6,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready

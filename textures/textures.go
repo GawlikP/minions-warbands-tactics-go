@@ -4,8 +4,6 @@ import (
   "log"
   "image/color"
   "github.com/hajimehoshi/ebiten/v2"
-  "github.com/hajimehoshi/ebiten/v2/text"
-  "github.com/hajimehoshi/ebiten/v2/ebitenutil"
   "golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
   "minions-warbands-tactics/constants"
@@ -13,17 +11,25 @@ import (
 )
 
 type Tex struct {
-  StandardFont      font.Face
-  Cursor            *ebiten.Image
-  NewGameBanner     *ebiten.Image
-  ExitGameBanner    *ebiten.Image
-  GrassTile         *ebiten.Image
-  StoneTile         *ebiten.Image
-  SandTile          *ebiten.Image
-  UIBadge           *ebiten.Image
+  StandardFont          font.Face
+  Cursor                *ebiten.Image
+  NewGameBanner         *ebiten.Image
+  ExitGameBanner        *ebiten.Image
+  GrassTile             *ebiten.Image
+  StoneTile             *ebiten.Image
+  SandTile              *ebiten.Image
+  UIBadge               *ebiten.Image
   //Minions
-  FishMinion        *ebiten.Image
-  RatMinion         *ebiten.Image
+  FishMinion            *ebiten.Image
+  RatMinion             *ebiten.Image
+  BazaltieWalkingRight  []*ebiten.Image
+  BazaltieWalkingLeft   []*ebiten.Image
+  BazaltieWalkingUp     []*ebiten.Image
+  BazaltieWalkingDown   []*ebiten.Image
+  ThreedyWalkingRight   []*ebiten.Image
+  ThreedyWalkingLeft    []*ebiten.Image
+  ThreedyWalkingUp       []*ebiten.Image
+  ThreedyWalkingDown     []*ebiten.Image
 }
 // TODO: REFACTOR INITIALIZATION
 func (t *Tex) InitTextures() {
@@ -33,80 +39,45 @@ func (t *Tex) InitTextures() {
   if err != nil {
     log.Fatal(err)
   }
-  img, _, err = ebitenutil.NewImageFromFile("images/cursor.png")
-  if err != nil {
-    log.Fatal(err)
-  }
+  img = LoadTexture("images/cursor.png")
   t.Cursor = ScaleTexture(img, constants.CURSORSIZE, constants.CURSORSIZE)
   log.Print("Initialized the Cursor Texture")
 
-  img, _, err = ebitenutil.NewImageFromFile("images/ui_badge.png")
-  if err != nil {
-    log.Fatal(err)
-  }
+  img = LoadTexture("images/ui_badge.png")
   t.UIBadge = ScaleTexture(img, constants.BANNERWIDTH, constants.BANNERHEIGHT)
   log.Print("Initialized the UIBadge Texture")
 
 
   // TILES INITIALIZATION
   log.Print("Initializing the tiles textures")
-  img, _, err = ebitenutil.NewImageFromFile("images/grass_tile.png")
-  if err != nil {
-    log.Fatal(err)
-  }
 
+  img = LoadTexture("images/grass_tile.png")
   t.GrassTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
   log.Print("Initialized the GrassTile Texture")
 
-  img, _, err = ebitenutil.NewImageFromFile("images/stone_tile.png")
-  if err != nil {
-    log.Fatal(err)
-  }
-
+  img = LoadTexture("images/StoneWall.png")
   t.StoneTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
   log.Print("Initialized the StoneTile Texture")
 
-  img, _, err = ebitenutil.NewImageFromFile("images/sand_tile.png")
-  if err != nil {
-    log.Fatal(err)
-  }
-
+  img = LoadTexture("images/sand_tile.png")
   t.SandTile = ScaleTexture(img, constants.TILESIZE, constants.TILESIZE)
   log.Print("Initialized the SandTile Texture")
 
   //Units Initialization
-
-  img, _, err = ebitenutil.NewImageFromFile("images/fish_unit.png")
-  if err != nil {
-    log.Fatal(err)
-  }
-
+  img = LoadTexture("images/fish_unit.png")
   t.FishMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
-  log.Print("Initialized the SandTile Texture")
+  log.Print("Initialized the Fish unit Texture")
 
-  img, _, err = ebitenutil.NewImageFromFile("images/mouse_unit.png")
-  if err != nil {
-    log.Fatal(err)
-  }
-
+  img = LoadTexture("images/mouse_unit.png")
   t.RatMinion = ScaleTexture(img, constants.UNITSIZE, constants.UNITSIZE)
-  log.Print("Initialized the SandTile Texture")
+  log.Print("Initialized the Mouse Texture")
 
   // PRIMITIVES
+  log.Printf("Initializing the Primitives")
   t.NewGameBanner = t.GeneratePrimitiveBanner("NEW GAME", color.RGBA{200,100,100,100})
   t.ExitGameBanner = t.GeneratePrimitiveBanner("EXIT GAME", color.RGBA{200,100,100,100})
-}
-
-func ScaleTexture(texture *ebiten.Image, width int, height int) *ebiten.Image {
-  var scaledTexture *ebiten.Image
-  var op ebiten.DrawImageOptions
-  imageW, imageH := texture.Bounds().Dx(), texture.Bounds().Dy()
-  subImage := ebiten.NewImage(width, height)
-  scaledTexture = ebiten.NewImageFromImage(subImage)
-  op.GeoM.Reset()
-  op.GeoM.Scale(float64(width)/float64(imageW), float64(height)/float64(imageH))
-  scaledTexture.DrawImage(texture, &op)
-  return scaledTexture
+  log.Printf("Initializing the Minions Textures")
+  InitMinionsTextures(t)
 }
 
 func (t *Tex) InitFonts() error {
@@ -136,10 +107,4 @@ func (t *Tex) GeneratePrimitiveBanner(msg string, c color.Color) *ebiten.Image {
   bannerTexture.Fill(c)
   DrawCenteredText(bannerTexture, t.StandardFont, msg, constants.BANNERWIDTH/2, constants.BANNERHEIGHT/2)
   return bannerTexture
-}
-
-func DrawCenteredText(screen *ebiten.Image, font font.Face, s string, cx, cy int) {
-    bounds := text.BoundString(font, s)
-    x, y := cx-bounds.Min.X-bounds.Dx()/2, cy-bounds.Min.Y-bounds.Dy()/2
-    text.Draw(screen, s, font, x, y,  color.White)
 }

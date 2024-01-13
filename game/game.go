@@ -13,14 +13,16 @@ import (
 )
 
 type Game struct {
-  initialized bool
-  tex textures.Tex
-  mainMenu scenes.MainMenuScene
-  battleSimulation scenes.BattleSimulationScene
-  currentScene scenes.CurrentScene
+  initialized       bool
+  tex               textures.Tex
+  mainMenu          scenes.MainMenuScene
+  battleSimulation  scenes.BattleSimulationScene
+  currentScene      scenes.CurrentScene
+  ticks             int
 }
 
 func (g *Game) Update() error {
+  g.UpdateTicks()
   if inpututil.IsKeyJustPressed(ebiten.KeyQ) {
     os.Exit(1)
   }
@@ -83,7 +85,7 @@ func (g *Game) ProcessBattleSimulator() {
     }
 
     if g.battleSimulation.State == scenes.Ready {
-      g.battleSimulation.Update()
+      g.battleSimulation.Update(g.ticks)
     }
   }
 }
@@ -105,4 +107,9 @@ func (g *Game) Init() {
   }
   g.currentScene = scenes.MainMenu
   g.initialized = true
+}
+
+func (g *Game) UpdateTicks() {
+  g.ticks += 1
+  g.ticks %= 60
 }
