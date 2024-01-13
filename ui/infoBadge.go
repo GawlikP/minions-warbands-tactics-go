@@ -1,7 +1,7 @@
 package ui
 
 import (
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -16,7 +16,7 @@ type InfoBadge struct {
 
 }
 
-func (i *InfoBadge) Draw(screen *ebiten.Image, tex textures.Tex){
+func (i *InfoBadge) Draw(screen *ebiten.Image, tex texture.Tex){
   if i.Active {
     i.RenderBadgeInTheCorner(screen, tex) 
   }
@@ -32,10 +32,10 @@ func (i *InfoBadge) Init(tag string, sceneW, sceneH int) {
   i.Tag = tag
 }
 
-func (i* InfoBadge) RenderBadgeInTheCorner(screen *ebiten.Image, tex textures.Tex) {
+func (i* InfoBadge) RenderBadgeInTheCorner(screen *ebiten.Image, tex texture.Tex) {
   Op := &ebiten.DrawImageOptions{}
   Op.GeoM.Reset()
   Op.GeoM.Translate(float64(i.Xpos), float64(i.Ypos))
   screen.DrawImage(tex.UIBadge, Op)
-  textures.DrawCenteredText(screen,tex.StandardFont, i.Msg, i.sceneW-i.Xpos/2, 32)
+  texture.DrawCenteredText(screen,tex.StandardFont, i.Msg, i.sceneW-i.Xpos/2, 32)
 }

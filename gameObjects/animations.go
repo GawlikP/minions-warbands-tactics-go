@@ -1,11 +1,11 @@
 package gameObjects
 
 import (
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "github.com/hajimehoshi/ebiten/v2"
 )
 
-func (u *Minion) DrawWithoutAnimations(screen *ebiten.Image, tex textures.Tex) {
+func (u *Minion) DrawWithoutAnimations(screen *ebiten.Image, tex texture.Tex) {
   switch u.Type {
     case MRat:
       u.USprite.Draw(screen, tex.RatMinion)
@@ -21,7 +21,7 @@ func (u *Minion) HandleAnimation(ticks int) {
   u.Animation.UpdateAnimationIndex(ticks, 4)
 }
 
-func (u *Minion) DrawPropperAnimation(screen *ebiten.Image, tex textures.Tex) {
+func (u *Minion) DrawPropperAnimation(screen *ebiten.Image, tex texture.Tex) {
   switch u.Type {
   case MBaltie:
     if u.Direction == 1 {

@@ -2,7 +2,7 @@ package gameObjects
 
 import (
   "minions-warbands-tactics/constants"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
 )
 
 type MinionType int
@@ -29,7 +29,7 @@ func InitRatMinion(x, y int) Minion {
     Path:         []int{},
     TargetIndex:  -1,
     PathIndex:    -1,
-    Animation:    textures.InitAnimation(),
+    Animation:    texture.InitAnimation(),
     Moving:       false,
   }
 }
@@ -49,7 +49,7 @@ func InitFishMinion(x, y int) Minion {
     Path:         []int{},
     TargetIndex:  -1,
     PathIndex:    -1,
-    Animation:   textures.InitAnimation(), 
+    Animation:   texture.InitAnimation(), 
     Moving:       false,
   }
 }
@@ -69,7 +69,7 @@ func InitBaltieMinion(x, y int) Minion {
     Path:         []int{},
     TargetIndex:  -1,
     PathIndex:    -1,
-    Animation:    textures.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
+    Animation:    texture.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
     Moving:       false,
   }
 }
@@ -89,7 +89,7 @@ func InitThreedyMinion(x, y int) Minion {
     Path:         []int{},
     TargetIndex:  -1,
     PathIndex:    -1,
-    Animation:    textures.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
+    Animation:    texture.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
     Moving:       false,
   }
 }

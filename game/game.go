@@ -6,7 +6,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2/ebitenutil"
   "fmt"
   "log"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "minions-warbands-tactics/scenes"
   "minions-warbands-tactics/maps"
   "os"
@@ -14,7 +14,7 @@ import (
 
 type Game struct {
   initialized       bool
-  tex               textures.Tex
+  tex               texture.Tex
   mainMenu          scenes.MainMenuScene
   battleSimulation  scenes.BattleSimulationScene
   currentScene      scenes.CurrentScene
@@ -92,10 +92,10 @@ func (g *Game) ProcessBattleSimulator() {
 
 func (g *Game) Init() {
   log.Print("Initializing the game")
-  log.Print("Initializing Game Textures")
-  g.tex = textures.Tex{}
+  log.Print("Initializing Game texture")
+  g.tex = texture.Tex{}
   g.tex.InitTextures()
-  log.Print("GameTexturesInitialized")
+  log.Print("GametextureInitialized")
   g.mainMenu = scenes.MainMenuScene{
     State: scenes.Closed,
   }

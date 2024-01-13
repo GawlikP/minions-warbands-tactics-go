@@ -2,7 +2,7 @@ package gameObjects
 
 import (
   "github.com/hajimehoshi/ebiten/v2"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "minions-warbands-tactics/constants"
 )
 
@@ -24,7 +24,7 @@ func (b *BattleMap) Update(ticks int) {
   b.UpdateMinions(ticks)
 }
 
-func (b *BattleMap) Draw(screen *ebiten.Image, tex textures.Tex) {
+func (b *BattleMap) Draw(screen *ebiten.Image, tex texture.Tex) {
   b.RenderTiles(screen, tex)
   b.RenderMinions(screen, tex)
 }
@@ -33,13 +33,13 @@ func (b *BattleMap) Input() {}
 
 func (b *BattleMap) Init() {}
 
-func (b *BattleMap) RenderMinions(screen *ebiten.Image, tex textures.Tex) {
+func (b *BattleMap) RenderMinions(screen *ebiten.Image, tex texture.Tex) {
   for idx := range b.Minions {
     b.Minions[idx].Draw(screen, tex)
   }
 }
 
-func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex textures.Tex) {
+func (b *BattleMap) RenderTiles(screen *ebiten.Image, tex texture.Tex) {
   Op := &ebiten.DrawImageOptions{}
   x, y := 0, 0
 

@@ -1,4 +1,4 @@
-package textures
+package texture
 
 type Animation struct {
   CurrentAnimationFrame     int

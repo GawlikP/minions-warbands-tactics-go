@@ -1,4 +1,4 @@
-package textures
+package texture
 
 import (
   "log"

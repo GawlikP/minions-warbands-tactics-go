@@ -4,7 +4,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2"
   "github.com/hajimehoshi/ebiten/v2/inpututil"
   "minions-warbands-tactics/gameObjects"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
 )
 
 type MainMenuScene struct {
@@ -42,11 +42,11 @@ func (m *MainMenuScene) Update() int {
   return 0
 }
 
-func (m *MainMenuScene) Draw(screen *ebiten.Image, textures textures.Tex) {
+func (m *MainMenuScene) Draw(screen *ebiten.Image, texture texture.Tex) {
   if m.State == Ready { 
-    m.NewGameSprite.Draw(screen, textures.NewGameBanner)
-    m.ExitGameSprite.Draw(screen, textures.ExitGameBanner)
-    m.CursorSprite.Draw(screen, textures.Cursor)
+    m.NewGameSprite.Draw(screen, texture.NewGameBanner)
+    m.ExitGameSprite.Draw(screen, texture.ExitGameBanner)
+    m.CursorSprite.Draw(screen, texture.Cursor)
   }
 }
 

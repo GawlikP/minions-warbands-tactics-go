@@ -4,7 +4,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2"
   "github.com/hajimehoshi/ebiten/v2/inpututil"
   "minions-warbands-tactics/gameObjects"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "minions-warbands-tactics/maps"
   "minions-warbands-tactics/ui"
   "log"
@@ -28,7 +28,7 @@ func (b *BattleSimulationScene) Update(ticks int) error {
   return nil
 }
 
-func (b *BattleSimulationScene) Draw(screen *ebiten.Image, textures textures.Tex) {
+func (b *BattleSimulationScene) Draw(screen *ebiten.Image, textures texture.Tex) {
   if b.BattleState == Ready {
     b.BattleMap.Draw(screen, textures)
     b.Cursor.CursorSprite.Draw(screen, textures.Cursor)

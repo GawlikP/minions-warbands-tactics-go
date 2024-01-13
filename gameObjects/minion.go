@@ -2,7 +2,7 @@ package gameObjects
 
 import (
   "github.com/hajimehoshi/ebiten/v2"
-  "minions-warbands-tactics/textures"
+  "minions-warbands-tactics/texture"
   "log"
   "minions-warbands-tactics/constants"
 )
@@ -21,13 +21,13 @@ type Minion struct {
   Path        []int
   TargetIndex int
   PathIndex   int
-  Animation   textures.Animation
+  Animation   texture.Animation
   Moving      bool
   VX          float64
   VY          float64
 }
 
-func (u *Minion) Draw(screen *ebiten.Image, tex textures.Tex) {
+func (u *Minion) Draw(screen *ebiten.Image, tex texture.Tex) {
 
   if u.Animation.Frames == 0 {
     u.DrawWithoutAnimations(screen, tex)
