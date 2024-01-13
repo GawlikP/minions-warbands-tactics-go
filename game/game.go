@@ -8,7 +8,7 @@ import (
   "log"
   "minions-warbands-tactics/texture"
   "minions-warbands-tactics/scene"
-  "minions-warbands-tactics/maps"
+  "minions-warbands-tactics/tilemap"
   "os"
 )
 
@@ -99,8 +99,8 @@ func (g *Game) Init() {
   g.mainMenu = scene.MainMenuScene{
     State: scene.Closed,
   }
-  log.Print("Initializing MAPS")
-  maps.InitializeMaps()
+  log.Print("Initializing tilemap")
+  tilemap.InitializeStandardMap()
   g.battleSimulation = scene.BattleSimulationScene{
     State: scene.Closed,
     BattleState: scene.Closed,

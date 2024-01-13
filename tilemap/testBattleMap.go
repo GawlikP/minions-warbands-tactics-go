@@ -1,4 +1,4 @@
-package maps 
+package tilemap
 
 import (
   "minions-warbands-tactics/gameObject"
@@ -8,7 +8,7 @@ import (
 var StandardTileMap []gameObject.BattleMapTileType
 const StandardTileMapWidth = 10
 
-func InitializeMaps() {
+func InitializeStandardMap() {
   // blocks := []int{}
   // for i := 0; i < StandardTileMapWidth * 8; i++ {
   //   StandardTileMap = append(StandardTileMap, gameObject.Grass)

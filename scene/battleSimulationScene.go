@@ -5,7 +5,7 @@ import (
   "github.com/hajimehoshi/ebiten/v2/inpututil"
   "minions-warbands-tactics/gameObject"
   "minions-warbands-tactics/texture"
-  "minions-warbands-tactics/maps"
+  "minions-warbands-tactics/tilemap"
   "minions-warbands-tactics/ui"
   "log"
 )
@@ -87,8 +87,8 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
   }
   b.BattleMap = gameObject.BattleMap{
     Minions: []gameObject.Minion{},
-    Tiles: maps.StandardTileMap,
-    Width: maps.StandardTileMapWidth,
+    Tiles: tilemap.StandardTileMap,
+    Width: tilemap.StandardTileMapWidth,
   }
   b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitBaltieMinion(0,0)) 
   b.BattleMap.Minions = append(b.BattleMap.Minions, gameObject.InitFishMinion(6,4)) 
