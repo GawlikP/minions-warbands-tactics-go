@@ -7,7 +7,7 @@ import (
   "fmt"
   "log"
   "minions-warbands-tactics/texture"
-  "minions-warbands-tactics/scenes"
+  "minions-warbands-tactics/scene"
   "minions-warbands-tactics/maps"
   "os"
 )
@@ -15,9 +15,9 @@ import (
 type Game struct {
   initialized       bool
   tex               texture.Tex
-  mainMenu          scenes.MainMenuScene
-  battleSimulation  scenes.BattleSimulationScene
-  currentScene      scenes.CurrentScene
+  mainMenu          scene.MainMenuScene
+  battleSimulation  scene.BattleSimulationScene
+  currentScene      scene.CurrentScene
   ticks             int
 }
 
@@ -37,10 +37,10 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-  if g.currentScene == scenes.MainMenu && g.mainMenu.State == scenes.Ready {
+  if g.currentScene == scene.MainMenu && g.mainMenu.State == scene.Ready {
     g.mainMenu.Draw(screen, g.tex)
   }
-  if g.currentScene == scenes.BattleSimulation && g.battleSimulation.State == scenes.Ready {
+  if g.currentScene == scene.BattleSimulation && g.battleSimulation.State == scene.Ready {
     g.battleSimulation.Draw(screen, g.tex)
   }
   g.PerformanceTab(screen)
@@ -56,20 +56,20 @@ func (g *Game) PerformanceTab(screen *ebiten.Image) {
 }
 
 func (g *Game) ProcessMainMenu() {
-  if g.currentScene == scenes.MainMenu {
-    if g.mainMenu.State != scenes.Ready {
+  if g.currentScene == scene.MainMenu {
+    if g.mainMenu.State != scene.Ready {
       log.Print("Initializing the MainMenu scene")      
       g.mainMenu.Init(480,320)
       log.Print("Initialized Main Menu scene")      
     }
 
-    if g.mainMenu.State == scenes.Ready {
+    if g.mainMenu.State == scene.Ready {
       menuOutput := g.mainMenu.Update()
 
       if menuOutput == 1 {
         log.Print("Changing scene to BattleSimulation")
-        g.mainMenu.State = scenes.Closed
-        g.currentScene = scenes.BattleSimulation
+        g.mainMenu.State = scene.Closed
+        g.currentScene = scene.BattleSimulation
       }
     }
   }
@@ -77,14 +77,14 @@ func (g *Game) ProcessMainMenu() {
 
 
 func (g *Game) ProcessBattleSimulator() {
-  if g.currentScene == scenes.BattleSimulation {
-    if g.battleSimulation.State != scenes.Ready {
+  if g.currentScene == scene.BattleSimulation {
+    if g.battleSimulation.State != scene.Ready {
       log.Print("Initializing the BattleSimulation scene")      
       g.battleSimulation.Init(480,320)
       log.Print("Initialized BattleSimulation scene")      
     }
 
-    if g.battleSimulation.State == scenes.Ready {
+    if g.battleSimulation.State == scene.Ready {
       g.battleSimulation.Update(g.ticks)
     }
   }
@@ -96,16 +96,16 @@ func (g *Game) Init() {
   g.tex = texture.Tex{}
   g.tex.InitTextures()
   log.Print("GametextureInitialized")
-  g.mainMenu = scenes.MainMenuScene{
-    State: scenes.Closed,
+  g.mainMenu = scene.MainMenuScene{
+    State: scene.Closed,
   }
   log.Print("Initializing MAPS")
   maps.InitializeMaps()
-  g.battleSimulation = scenes.BattleSimulationScene{
-    State: scenes.Closed,
-    BattleState: scenes.Closed,
+  g.battleSimulation = scene.BattleSimulationScene{
+    State: scene.Closed,
+    BattleState: scene.Closed,
   }
-  g.currentScene = scenes.MainMenu
+  g.currentScene = scene.MainMenu
   g.initialized = true
 }
 

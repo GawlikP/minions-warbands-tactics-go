@@ -1,4 +1,4 @@
-package scenes
+package scene
 
 type SceneState int
 
