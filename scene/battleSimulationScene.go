@@ -9,6 +9,8 @@ import (
   "minions-warbands-tactics/ui"
   "minions-warbands-tactics/battle"
   "minions-warbands-tactics/minion"
+  "minions-warbands-tactics/effect"
+  "minions-warbands-tactics/constant"
   "log"
 )
 
@@ -20,6 +22,7 @@ type BattleSimulationScene struct {
   BattleMap           battle.BattleMap 
   BattleState         SceneState
   BattleFieldBadge    ui.InfoBadge
+  CMinionIndex        int
 }
 
 func (b *BattleSimulationScene) Update(ticks int) error {
@@ -58,9 +61,22 @@ func (b *BattleSimulationScene) Input() error {
     // log.Printf("BattleFieldBadge Active: %v", b.BattleFieldBadge.Active)
   }
   if inpututil.IsKeyJustPressed(ebiten.KeyX) {
-    if index := b.BattleMap.GetTileIndex(b.Cursor.Xpos, b.Cursor.Ypos); index != -1 {
-      log.Printf("Updated TargetIndex: %d", index)
-      b.BattleMap.Minions[0].TargetIndex = index
+    if index := b.BattleMap.GetTileIndex(b.Cursor.Xpos+10, b.Cursor.Ypos-10); index != -1 {
+      log.Printf("Updated DestinationIndex: %d", index)
+      for idx := range b.BattleMap.Allies {
+        b.BattleMap.Allies[idx].DestinationIndex = index
+        b.BattleMap.Allies[idx].TargetIndex = -1
+      }
+      b.BattleMap.AddEffect(effect.CreateEffect(
+        (index%b.BattleMap.Width)*constant.TILESIZE,
+        (index/b.BattleMap.Width)*constant.TILESIZE,
+        60,
+        texture.Animation{
+          CurrentAnimationFrame: 0,
+          Frames: 6,
+        },
+        constant.TargetParticle,
+      ))
     }
   }
   if ebiten.IsKeyPressed(ebiten.KeyShift) {
@@ -88,12 +104,16 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     Speed: 1,
   }
   b.BattleMap = battle.BattleMap{
-    Minions: []minion.Minion{},
-    Tiles: tilemap.StandardTileMap,
-    Width: tilemap.StandardTileMapWidth,
+    // Minions: []minion.Minion{},
+    Tiles:    tilemap.StandardTileMap,
+    Width:    tilemap.StandardTileMapWidth,
+    Effects:  []effect.Effect{},
+    Allies:   []minion.Minion{},
+    Enemies:  []minion.Minion{},
   }
-  b.BattleMap.Minions = append(b.BattleMap.Minions, minion.InitBaltieMinion(0,0)) 
-  b.BattleMap.Minions = append(b.BattleMap.Minions, minion.InitFishMinion(6,4)) 
+  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,0)) 
+  b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitThreedyMinion(0,1)) 
+  b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(9,5)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready
   b.BattleState = Ready

@@ -18,7 +18,7 @@ func (u *Minion) HandleAnimation(ticks int) {
   if u.Animation.Frames == 0  || u.Moving == false {
     return
   }
-  u.Animation.UpdateAnimationIndex(ticks, 4)
+  u.Animation.UpdateAnimationIndex(ticks)
 }
 
 func (u *Minion) DrawPropperAnimation(screen *ebiten.Image, tex texture.Tex) {

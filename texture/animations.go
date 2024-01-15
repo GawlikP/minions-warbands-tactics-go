@@ -5,13 +5,13 @@ type Animation struct {
   Frames                    int
 }
 
-func (a *Animation) UpdateAnimationIndex(tick int, animationLength int) {
+func (a *Animation) UpdateAnimationIndex(tick int) {
   if a.Frames == 0 {
       return
   }
   index := tick/(60/a.Frames)
 
-  if index < animationLength {
+  if index < a.Frames {
     a.CurrentAnimationFrame = index
   }
 }

@@ -19,7 +19,7 @@ type Tex struct {
   StoneTile             *ebiten.Image
   SandTile              *ebiten.Image
   UIBadge               *ebiten.Image
-  //Minions
+  // Minions
   FishMinion            *ebiten.Image
   RatMinion             *ebiten.Image
   BazaltieWalkingRight  []*ebiten.Image
@@ -28,8 +28,11 @@ type Tex struct {
   BazaltieWalkingDown   []*ebiten.Image
   ThreedyWalkingRight   []*ebiten.Image
   ThreedyWalkingLeft    []*ebiten.Image
-  ThreedyWalkingUp       []*ebiten.Image
-  ThreedyWalkingDown     []*ebiten.Image
+  ThreedyWalkingUp      []*ebiten.Image
+  ThreedyWalkingDown    []*ebiten.Image
+  // Effects
+  StandardParticle      []*ebiten.Image
+  TargetParticle        []*ebiten.Image
 }
 // TODO: REFACTOR INITIALIZATION
 func (t *Tex) InitTextures() {
@@ -78,6 +81,8 @@ func (t *Tex) InitTextures() {
   t.ExitGameBanner = t.GeneratePrimitiveBanner("EXIT GAME", color.RGBA{200,100,100,100})
   log.Printf("Initializing the Minions Textures")
   InitMinionsTextures(t)
+  log.Printf("Initializing the Particles Textures")
+  InitParticlesTextres(t)
 }
 
 func (t *Tex) InitFonts() error {

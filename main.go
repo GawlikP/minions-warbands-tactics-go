@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-  ebiten.SetWindowSize(1980, 1080)
+  ebiten.SetWindowSize(800, 600)
   ebiten.SetWindowTitle("Minions Warbands Tactics")
   if err := ebiten.RunGame(&game.Game{}); err != nil {
     log.Fatal(err)

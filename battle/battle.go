@@ -5,30 +5,37 @@ import (
   "minions-warbands-tactics/texture"
   "minions-warbands-tactics/constant"
   "minions-warbands-tactics/minion"
+  "minions-warbands-tactics/effect"
 )
 
 type BattleMap struct {
   Tiles   []constant.BattleMapTileType
-  Minions []minion.Minion
+  // Minions []minion.Minion
+  Effects []effect.Effect
   Width   int
+  Allies  []minion.Minion
+  Enemies []minion.Minion
 }
 
 func (b *BattleMap) Update(ticks int) {
-  b.UpdateMinions(ticks)
+  b.UpdateEnemies(ticks)
+  b.UpdateAllies(ticks)
+  b.UpdateEffects(ticks)
 }
 
 func (b *BattleMap) Draw(screen *ebiten.Image, tex texture.Tex) {
   b.RenderTiles(screen, tex)
   b.RenderMinions(screen, tex)
+  b.RenderEffects(screen, tex)
 }
 
 func (b *BattleMap) Input() {}
 
 func (b *BattleMap) Init() {}
 
-func (b *BattleMap) RenderMinions(screen *ebiten.Image, tex texture.Tex) {
-  for idx := range b.Minions {
-    b.Minions[idx].Draw(screen, tex)
+func (b *BattleMap) RenderEffects(screen *ebiten.Image, tex texture.Tex) {
+  for idx := range b.Effects {
+    b.Effects[idx].Draw(screen, tex)
   }
 }
 
@@ -79,9 +86,23 @@ func (b *BattleMap) GetTileIndex(x, y int) int {
   return index
 }
 
-func (b *BattleMap) UpdateMinions(ticks int) {
-  for idx := range b.Minions {
-    b.Minions[idx].Update(b.Tiles, b.Width, ticks)
+func (b *BattleMap) UpdateEffects(ticks int) {
+  indexesToRemove := []int{}
+  for idx := range b.Effects {
+    b.Effects[idx].Update(ticks)
+  }
+  for idx := range b.Effects {
+    if b.Effects[idx].LifeTime < b.Effects[idx].CurrentTime {
+      indexesToRemove = append(indexesToRemove, idx)  
+    }
+  }
+  for idx := range indexesToRemove {
+    b.Effects = append(b.Effects[:idx], b.Effects[idx+1:]...)
   }
 }
+
+func (b *BattleMap) AddEffect(e effect.Effect) {
+  b.Effects = append(b.Effects, e)
+}
+
 
