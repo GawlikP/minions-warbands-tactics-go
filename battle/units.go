@@ -11,7 +11,11 @@ func (b *BattleMap) UpdateAllies(ticks int) {
       b.Allies[idx].TargetEnemy(b.Enemies, b.Tiles, b.Width)
     }
     if b.Allies[idx].TargetIndex != -1 {
-      b.Allies[idx].FollowEnemy(b.Enemies[b.Allies[idx].TargetIndex])
+      b.Allies[idx].FollowEnemy(&b.Enemies[b.Allies[idx].TargetIndex])
+      effects := b.Allies[idx].Attack(&b.Enemies[b.Allies[idx].TargetIndex])
+      if len(effects) > 0 {
+        b.Effects = append(b.Effects, effects...)
+      }
     }
     b.Allies[idx].Update(b.Tiles, b.Width, ticks)
   }
@@ -23,6 +27,7 @@ func (b *BattleMap) UpdateEnemies(ticks int) {
     // if b.Enemies[idx].TargetIndex != -1 {
     //   b.Enemies[idx].FollowEnemy(b.Allies[b.Enemies[idx].TargetIndex])
     // }
+    // log.Printf("EX: %d EY: %d", b.Enemies[idx].Xpos, b.Enemies[idx].Ypos) 
     b.Enemies[idx].Update(b.Tiles, b.Width, ticks)
   }
 
@@ -33,18 +38,28 @@ func (b *BattleMap) UpdateEnemies(ticks int) {
     }
   }
 
-  for idx := range indexesToRemove { 
-    b.Effects = append(b.Effects[:idx], b.Effects[idx+1:]...)
+  removed := 0
+  for _, v := range indexesToRemove { 
+    for idx := range b.Allies {
+      if b.Allies[idx].TargetIndex == v {
+        b.Allies[idx].TargetIndex = -1
+      }
+    }
+    index := v - removed
+    if index < 0 {
+      index = 0
+    }
+    b.Enemies = append(b.Enemies[:index], b.Enemies[index+1:]...)
+    removed++
   }
 } 
 
 func (b *BattleMap) RenderMinions(screen *ebiten.Image, tex texture.Tex) {
-  for idx := range b.Allies {
-    b.Allies[idx].Draw(screen, tex)
-  }
-
   for idx := range b.Enemies {
     b.Enemies[idx].Draw(screen, tex)
+  }
+  for idx := range b.Allies {
+    b.Allies[idx].Draw(screen, tex)
   }
 }
 

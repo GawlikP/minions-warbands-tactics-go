@@ -96,8 +96,14 @@ func (b *BattleMap) UpdateEffects(ticks int) {
       indexesToRemove = append(indexesToRemove, idx)  
     }
   }
-  for idx := range indexesToRemove {
-    b.Effects = append(b.Effects[:idx], b.Effects[idx+1:]...)
+  removed := 0
+  for _, v := range indexesToRemove {
+    index := v - removed
+    if index < 0 {
+      index = 0
+    }
+    b.Effects = append(b.Effects[:index], b.Effects[index+1:]...)
+    removed++
   }
 }
 

@@ -104,7 +104,6 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     Speed: 1,
   }
   b.BattleMap = battle.BattleMap{
-    // Minions: []minion.Minion{},
     Tiles:    tilemap.StandardTileMap,
     Width:    tilemap.StandardTileMapWidth,
     Effects:  []effect.Effect{},
@@ -112,8 +111,12 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     Enemies:  []minion.Minion{},
   }
   // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,0)) 
-  b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitThreedyMinion(0,1)) 
-  b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(9,5)) 
+  b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,1)) 
+  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,0)) 
+  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,2)) 
+  // b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(9,5)) 
+  b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(4,3)) 
+  b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(4,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 
   b.State = Ready
   b.BattleState = Ready

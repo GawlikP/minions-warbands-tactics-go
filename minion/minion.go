@@ -24,10 +24,16 @@ type Minion struct {
   DestinationIndex  int
   PathIndex         int
   Animation         texture.Animation
-  Moving            bool
+  State             MinionState
   VX                float64
   VY                float64
   TargetIndex       int
+  // ATTACKING
+  PerformAttack     bool
+  AAttackIndex       int
+  AttackSpeed       int
+  AttackCounter     int
+  AttackRange       int
 }
 
 func (u *Minion) Draw(screen *ebiten.Image, tex texture.Tex) {
@@ -77,7 +83,16 @@ func (u *Minion) Update(grid []constant.BattleMapTileType, width int, ticks int)
   } else {
     u.MoveOnPath(width)
   }
+  if u.State == MSFighing && !u.PerformAttack {
+    u.AttackCounter += ticks
+  }
   u.Move()
+  if u.State == MSFighing {
+    if u.PerformAttack {
+      u.Animation.CurrentAnimationFrame = 0
+    }
+    u.TryToHit()
+  }
   u.USprite.Xpos = int(u.Xpos)
   u.USprite.Ypos = int(u.Ypos)
 }

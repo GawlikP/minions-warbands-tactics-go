@@ -15,10 +15,18 @@ const (
   MThreedy
 )
 
+type MinionState byte
+
+const (
+  MSIdle MinionState = iota
+  MSMoving
+  MSFighing
+)
+
 func InitRatMinion(x, y int) Minion {
  return Minion{
     Type:               MRat,
-    Health:             1,
+    Health:             20,
     MaxHealth:          1,
     Damage:             1,
     Speed:              1,
@@ -31,8 +39,14 @@ func InitRatMinion(x, y int) Minion {
     DestinationIndex:   -1,
     PathIndex:          -1,
     Animation:          texture.InitAnimation(),
-    Moving:             false,
+    State:              MSIdle,
     TargetIndex:        -1,
+    // ATTACKING
+    PerformAttack:      false,
+    AAttackIndex:         3,
+    AttackSpeed:        40,
+    AttackCounter:      0,
+    AttackRange:        32,
   }
 }
 
@@ -52,8 +66,14 @@ func InitFishMinion(x, y int) Minion {
     DestinationIndex:   -1,
     PathIndex:          -1,
     Animation:          texture.InitAnimation(), 
-    Moving:             false,
+    State:              MSIdle,
     TargetIndex:        -1,
+    // ATTACKING
+    PerformAttack:      false,
+    AAttackIndex:         3,
+    AttackSpeed:        40,
+    AttackCounter:      0,
+    AttackRange:        32,
   }
 }
 
@@ -63,7 +83,7 @@ func InitBaltieMinion(x, y int) Minion {
     Health:             1,
     MaxHealth:          1,
     Damage:             1,
-    Speed:              150,
+    Speed:              100,
     USprite:            gameObject.Sprite{},
     Xpos:               float64(x*constant.TILESIZE),
     Ypos:               float64(y*constant.TILESIZE),
@@ -73,8 +93,14 @@ func InitBaltieMinion(x, y int) Minion {
     DestinationIndex:   -1,
     PathIndex:          -1,
     Animation:          texture.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
-    Moving:             false,
+    State:              MSIdle,
     TargetIndex:        -1,
+    // ATTACKING
+    PerformAttack:      false,
+    AAttackIndex:         3,
+    AttackSpeed:        600,
+    AttackCounter:      0,
+    AttackRange:        32,
   }
 }
 
@@ -94,7 +120,13 @@ func InitThreedyMinion(x, y int) Minion {
     DestinationIndex:   -1,
     PathIndex:          -1,
     Animation:          texture.Animation{ CurrentAnimationFrame: 0,  Frames: 4 },
-    Moving:             false,
+    State:              MSIdle,
     TargetIndex:        -1,
+    // ATTACKING
+    PerformAttack:      false,
+    AAttackIndex:         3,
+    AttackSpeed:        40,
+    AttackCounter:      0,
+    AttackRange:        32,
   }
 }

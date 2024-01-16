@@ -26,6 +26,10 @@ type Tex struct {
   BazaltieWalkingLeft   []*ebiten.Image
   BazaltieWalkingUp     []*ebiten.Image
   BazaltieWalkingDown   []*ebiten.Image
+  BazaltieFightingRight []*ebiten.Image
+  BazaltieFightingLeft  []*ebiten.Image
+  BazaltieFightingUp    []*ebiten.Image
+  BazaltieFightingDown  []*ebiten.Image
   ThreedyWalkingRight   []*ebiten.Image
   ThreedyWalkingLeft    []*ebiten.Image
   ThreedyWalkingUp      []*ebiten.Image

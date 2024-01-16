@@ -15,7 +15,8 @@ func (u *Minion) DrawWithoutAnimations(screen *ebiten.Image, tex texture.Tex) {
 }
 
 func (u *Minion) HandleAnimation(ticks int) {
-  if u.Animation.Frames == 0  || u.Moving == false {
+  if u.Animation.Frames == 0  || u.State == MSIdle {
+    u.Animation.CurrentAnimationFrame = 0
     return
   }
   u.Animation.UpdateAnimationIndex(ticks)
@@ -24,14 +25,27 @@ func (u *Minion) HandleAnimation(ticks int) {
 func (u *Minion) DrawPropperAnimation(screen *ebiten.Image, tex texture.Tex) {
   switch u.Type {
   case MBaltie:
-    if u.Direction == 1 {
-      u.USprite.Draw(screen, tex.BazaltieWalkingRight[u.Animation.CurrentAnimationFrame])
-    } else if u.Direction == 2 {
-      u.USprite.Draw(screen, tex.BazaltieWalkingLeft[u.Animation.CurrentAnimationFrame])
-    } else if u.Direction == 3 {
-      u.USprite.Draw(screen, tex.BazaltieWalkingDown[u.Animation.CurrentAnimationFrame])
-    } else if u.Direction == 4 {
-      u.USprite.Draw(screen, tex.BazaltieWalkingUp[u.Animation.CurrentAnimationFrame])
+    switch u.State {
+      case MSMoving, MSIdle:
+        if u.Direction == 1 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingRight[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 2 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingLeft[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 3 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingDown[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 4 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingUp[u.Animation.CurrentAnimationFrame])
+        }
+      case MSFighing: 
+        if u.Direction == 1 {
+          u.USprite.Draw(screen, tex.BazaltieFightingRight[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 2 {
+          u.USprite.Draw(screen, tex.BazaltieFightingLeft[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 3 {
+          u.USprite.Draw(screen, tex.BazaltieFightingDown[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 4 {
+          u.USprite.Draw(screen, tex.BazaltieFightingUp[u.Animation.CurrentAnimationFrame])
+        }
     }
   case MThreedy:
     if u.Direction == 1 {
