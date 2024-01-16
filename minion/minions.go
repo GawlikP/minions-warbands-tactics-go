@@ -43,7 +43,7 @@ func InitRatMinion(x, y int) Minion {
     TargetIndex:        -1,
     // ATTACKING
     PerformAttack:      false,
-    AAttackIndex:         3,
+    AAttackIndex:       0,
     AttackSpeed:        40,
     AttackCounter:      0,
     AttackRange:        32,
@@ -97,7 +97,7 @@ func InitBaltieMinion(x, y int) Minion {
     TargetIndex:        -1,
     // ATTACKING
     PerformAttack:      false,
-    AAttackIndex:         3,
+    AAttackIndex:       3,
     AttackSpeed:        600,
     AttackCounter:      0,
     AttackRange:        32,

@@ -3,10 +3,12 @@ package battle
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
+  "log"
 )
 
 func (b *BattleMap) UpdateAllies(ticks int) {
   for idx := range b.Allies {
+    log.Printf("Allie[%d] HP:%d", idx, b.Allies[idx].Health)
     if b.Allies[idx].PathIndex == -1 && b.Allies[idx].TargetIndex == -1 {
       b.Allies[idx].TargetEnemy(b.Enemies, b.Tiles, b.Width)
     }
@@ -23,11 +25,16 @@ func (b *BattleMap) UpdateAllies(ticks int) {
 
 func (b *BattleMap) UpdateEnemies(ticks int) {
   for idx := range b.Enemies {
-    // b.Enemies[idx].TargetEnemy(b.Allies, b.Tiles, b.Width)
-    // if b.Enemies[idx].TargetIndex != -1 {
-    //   b.Enemies[idx].FollowEnemy(b.Allies[b.Enemies[idx].TargetIndex])
-    // }
-    // log.Printf("EX: %d EY: %d", b.Enemies[idx].Xpos, b.Enemies[idx].Ypos) 
+    if b.Enemies[idx].PathIndex == -1 && b.Enemies[idx].TargetIndex == -1 {
+      b.Enemies[idx].TargetEnemy(b.Allies, b.Tiles, b.Width)
+    }
+    if b.Enemies[idx].TargetIndex != -1 {
+      b.Enemies[idx].FollowEnemy(&b.Allies[b.Enemies[idx].TargetIndex])
+      effects := b.Enemies[idx].Attack(&b.Allies[b.Enemies[idx].TargetIndex])
+      if len(effects) > 0 {
+        b.Effects = append(b.Effects, effects...)
+      }
+    }
     b.Enemies[idx].Update(b.Tiles, b.Width, ticks)
   }
 
