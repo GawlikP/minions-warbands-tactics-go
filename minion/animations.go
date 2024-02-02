@@ -1,0 +1,61 @@
+package minion
+
+import (
+  "minions-warbands-tactics/texture"
+  "github.com/hajimehoshi/ebiten/v2"
+)
+
+func (u *Minion) DrawWithoutAnimations(screen *ebiten.Image, tex texture.Tex) {
+  switch u.Type {
+    case MRat:
+      u.USprite.Draw(screen, tex.RatMinion)
+    case MFish:
+      u.USprite.Draw(screen, tex.FishMinion)
+  }
+}
+
+func (u *Minion) HandleAnimation(ticks int) {
+  if u.Animation.Frames == 0  || u.State == MSIdle {
+    u.Animation.CurrentAnimationFrame = 0
+    return
+  }
+  u.Animation.UpdateAnimationIndex(ticks)
+}
+
+func (u *Minion) DrawPropperAnimation(screen *ebiten.Image, tex texture.Tex) {
+  switch u.Type {
+  case MBaltie:
+    switch u.State {
+      case MSMoving, MSIdle:
+        if u.Direction == 1 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingRight[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 2 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingLeft[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 3 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingDown[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 4 {
+          u.USprite.Draw(screen, tex.BazaltieWalkingUp[u.Animation.CurrentAnimationFrame])
+        }
+      case MSFighing: 
+        if u.Direction == 1 {
+          u.USprite.Draw(screen, tex.BazaltieFightingRight[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 2 {
+          u.USprite.Draw(screen, tex.BazaltieFightingLeft[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 3 {
+          u.USprite.Draw(screen, tex.BazaltieFightingDown[u.Animation.CurrentAnimationFrame])
+        } else if u.Direction == 4 {
+          u.USprite.Draw(screen, tex.BazaltieFightingUp[u.Animation.CurrentAnimationFrame])
+        }
+    }
+  case MThreedy:
+    if u.Direction == 1 {
+      u.USprite.Draw(screen, tex.ThreedyWalkingRight[u.Animation.CurrentAnimationFrame])
+    } else if u.Direction == 2 {
+      u.USprite.Draw(screen, tex.ThreedyWalkingLeft[u.Animation.CurrentAnimationFrame])
+    } else if u.Direction == 3 {
+      u.USprite.Draw(screen, tex.ThreedyWalkingDown[u.Animation.CurrentAnimationFrame])
+    } else if u.Direction == 4 {
+      u.USprite.Draw(screen, tex.ThreedyWalkingUp[u.Animation.CurrentAnimationFrame])
+    }
+  }
+}
