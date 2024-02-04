@@ -42,6 +42,7 @@ func (u *Minion) TargetEnemy(enemies []Minion, tiles []constant.BattleMapTileTyp
   if u.TargetIndex != -1 {
     return
   }
+
   for i, v := range enemies {
     if !u.IsEnemyVisible(v, tiles, width) {
       continue
@@ -63,7 +64,8 @@ func (u *Minion) TargetEnemy(enemies []Minion, tiles []constant.BattleMapTileTyp
 }
 
 func (u *Minion) FollowEnemy(e *Minion) {
-  if int(math.Round(u.Xpos)/constant.TILESIZE) != int(math.Round(e.Xpos)/constant.TILESIZE) || int(math.Round(u.Ypos)/constant.TILESIZE) != int(math.Round(e.Ypos)/constant.TILESIZE) {
+  if int(math.Round(u.Xpos)/constant.TILESIZE) != int(math.Round(e.Xpos)/constant.TILESIZE) || 
+      int(math.Round(u.Ypos)/constant.TILESIZE) != int(math.Round(e.Ypos)/constant.TILESIZE) {
     u.MoveCloserTo(int(e.Xpos), int(e.Ypos))
   }
   if physics.IsColidingOnCircle( 
@@ -112,37 +114,25 @@ func (u *Minion) MoveCloserTo(x,y int) {
   }
 }
 
-func (u *Minion) IsEnemyVisible(enemy Minion, tiles []constant.BattleMapTileType, width int) bool {
-  for tidx, t := range tiles {
-    if t != constant.Stone {
-      continue
-    }
-      // log.Printf("u x:%d y:%d e x:%d y:%d b x:%d y:%d", 
-      // int(u.Xpos)/constant.TILESIZE, int(u.Ypos)/constant.TILESIZE, int(e.Xpos)/constant.TILESIZE, int(e.Ypos)/constant.TILESIZE, tidx%width, tidx/width)
-    if physics.IsInLine(
-      u.Xpos/constant.TILESIZE,
-      u.Ypos/constant.TILESIZE,
-      enemy.Xpos/constant.TILESIZE,
-      enemy.Ypos/constant.TILESIZE,
-      float64(tidx%width)-0.5,
-      float64(tidx/width)-0.5,
-    ) {
-      return false
-    }
+func (u *Minion) IsEnemyVisible(e Minion, tiles []constant.BattleMapTileType, width int) bool {
+  if isObstaclePresent(tiles, width, 
+    int(math.Round(u.Xpos)), int(math.Round(u.Ypos)),
+    int(math.Round(e.Xpos)), int(math.Round(e.Ypos))) {
+    return false
   }
-  // log.Printf("Indexes of enemies behind walls: %v", enemiesIdx)
-  return true 
+  return true
 }
+
 func (u *Minion) Attack(enemy *Minion) []effect.Effect {
   effects := []effect.Effect{}
   if u.TargetIndex != -1 {
     if u.PerformAttack == true {
       u.PerformAttack = false
       u.AttackCounter = 0
-        enemy.Health -= u.Damage
-        if enemy.Health < 0 {
-          u.State = MSIdle
-        }
+      enemy.Health -= u.Damage
+      if enemy.Health < 0 {
+        u.State = MSIdle
+      }
         effects = append(effects, effect.Effect{
             Xpos: int(enemy.Xpos),
             Ypos: int(enemy.Ypos),
@@ -164,4 +154,47 @@ func (u *Minion) TryToHit() {
       u.PerformAttack = true
     }
   }
+}
+
+func isObstaclePresent(tiles []constant.BattleMapTileType, width, x0, y0, x1, y1 int) bool {
+  x0 = x0/constant.TILESIZE
+  y0 = y0/constant.TILESIZE
+  x1 = x1/constant.TILESIZE
+  y1 = y1/constant.TILESIZE
+	dx := int(math.Abs(float64(x1 - x0)))
+	dy := int(math.Abs(float64(y1 - y0)))
+	x, y := x0, y0
+	sx := 1
+	sy := 1
+	if x0 > x1 {
+		sx = -1
+	}
+	if y0 > y1 {
+		sy = -1
+	}
+	err := dx - dy
+  if x+(y*width) > len(tiles) {
+    return true 
+  }
+	for {
+		if tiles[x+(y*width)] == constant.Stone {
+			return true
+		}
+
+		if x == x1 && y == y1 {
+			break
+		}
+
+		e2 := 2 * err
+		if e2 > -dy {
+			err -= dy
+			x += sx
+		}
+		if e2 < dx {
+			err += dx
+			y += sy
+		}
+	}
+
+	return false
 }

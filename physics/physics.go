@@ -2,7 +2,7 @@ package physics
 
 import "math"
 
-func IsInLine(x1, y1, x2, y2, x3, y3 float64) bool {
+func IsInLine(x1, y1, x2, y2, x3, y3 int) bool {
   //  dist_line_endp = DistBetwPoints(A,B)
   // if DistBetwPoints(A,C)>dist_line_endp:       return 1
   // elif DistBetwPoints(B,C)>dist_line_endp:     return 1
@@ -42,6 +42,6 @@ func IsColidingOnCircle(x, y, w, h, cx, cy, r int) bool {
  return false
 }
 
-func Dis(x1, y1, x2, y2 float64) float64 {
-  return math.Sqrt(math.Pow((x2 - x1),2) + math.Pow((y2 - x2),2))
+func Dis(x1, y1, x2, y2 int) int {
+  return int(math.Sqrt(math.Pow(float64(x2 - x1),2) + math.Pow(float64(y2 - x2),2)))
 }

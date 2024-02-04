@@ -23,6 +23,7 @@ type BattleSimulationScene struct {
   BattleState         SceneState
   BattleFieldBadge    ui.InfoBadge
   CMinionIndex        int
+  MinionIndex         int
 }
 
 func (b *BattleSimulationScene) Update(ticks int) error {
@@ -60,13 +61,13 @@ func (b *BattleSimulationScene) Input() error {
     b.BattleFieldBadge.Active = !b.BattleFieldBadge.Active
     // log.Printf("BattleFieldBadge Active: %v", b.BattleFieldBadge.Active)
   }
+
   if inpututil.IsKeyJustPressed(ebiten.KeyX) {
     if index := b.BattleMap.GetTileIndex(b.Cursor.Xpos+10, b.Cursor.Ypos-10); index != -1 {
       log.Printf("Updated DestinationIndex: %d", index)
-      for idx := range b.BattleMap.Allies {
-        b.BattleMap.Allies[idx].DestinationIndex = index
-        b.BattleMap.Allies[idx].TargetIndex = -1
-      }
+      idx := (b.MinionIndex - 1) % len(b.BattleMap.Allies)
+      b.BattleMap.Allies[idx].DestinationIndex = index
+      b.BattleMap.Allies[idx].TargetIndex = -1
       b.BattleMap.AddEffect(effect.CreateEffect(
         (index%b.BattleMap.Width)*constant.TILESIZE,
         (index/b.BattleMap.Width)*constant.TILESIZE,
@@ -78,7 +79,22 @@ func (b *BattleSimulationScene) Input() error {
         constant.TargetParticle,
       ))
     }
+    
   }
+
+  if inpututil.IsKeyJustPressed(ebiten.KeyDigit1) {
+    log.Printf("key 1 pressed!")
+    b.MinionIndex = 1
+  } else if inpututil.IsKeyJustPressed(ebiten.KeyDigit2) {
+    b.MinionIndex = 2
+  } else if inpututil.IsKeyJustPressed(ebiten.KeyDigit3) {
+    b.MinionIndex = 3
+  } else if inpututil.IsKeyJustPressed(ebiten.KeyDigit4) {
+    b.MinionIndex = 4
+  } else if inpututil.IsKeyJustPressed(ebiten.KeyDigit5) {
+    b.MinionIndex = 5
+  }
+
   if ebiten.IsKeyPressed(ebiten.KeyShift) {
     b.Cursor.Speed = 6
   } else {
@@ -110,11 +126,9 @@ func (b *BattleSimulationScene) Init(screenW, screenH int) error {
     Allies:   []minion.Minion{},
     Enemies:  []minion.Minion{},
   }
-  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,0)) 
-  b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,1)) 
-  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,0)) 
-  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,2)) 
-  // b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(9,5)) 
+  // b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitBaltieMinion(0,1)) 
+  b.BattleMap.Allies = append(b.BattleMap.Allies, minion.InitThreedyMinion(0,0)) 
+
   b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(4,3)) 
   b.BattleMap.Enemies = append(b.BattleMap.Enemies, minion.InitRatMinion(4,4)) 
   b.BattleFieldBadge.Init("FieldInfo", screenW, screenH) 

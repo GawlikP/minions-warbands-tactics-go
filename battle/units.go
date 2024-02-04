@@ -3,12 +3,10 @@ package battle
 import (
   "github.com/hajimehoshi/ebiten/v2"
   "minions-warbands-tactics/texture"
-  "log"
 )
 
 func (b *BattleMap) UpdateAllies(ticks int) {
   for idx := range b.Allies {
-    log.Printf("Allie[%d] HP:%d", idx, b.Allies[idx].Health)
     if b.Allies[idx].PathIndex == -1 && b.Allies[idx].TargetIndex == -1 {
       b.Allies[idx].TargetEnemy(b.Enemies, b.Tiles, b.Width)
     }

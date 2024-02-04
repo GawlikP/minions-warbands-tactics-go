@@ -44,7 +44,7 @@ func InitRatMinion(x, y int) Minion {
     // ATTACKING
     PerformAttack:      false,
     AAttackIndex:       0,
-    AttackSpeed:        40,
+    AttackSpeed:        800,
     AttackCounter:      0,
     AttackRange:        32,
   }
@@ -125,7 +125,7 @@ func InitThreedyMinion(x, y int) Minion {
     // ATTACKING
     PerformAttack:      false,
     AAttackIndex:         3,
-    AttackSpeed:        40,
+    AttackSpeed:        500,
     AttackCounter:      0,
     AttackRange:        32,
   }
